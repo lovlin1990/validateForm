@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>分步校验插件</title>
+<link rel="stylesheet" href="css/buttons.css" />
+<style>
+	body{margin:0;overflow:hidden;}
+	.bodyBg{
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		background-size: 100% 100%;
+	}
+	.mtb10{margin:10px auto;}
+	.v1,.v2{
+		width: 200px;
+		margin: auto;
+		
+	}
+	.v2{display: none;}
+</style>
+</head>
+ 
+<body>
+	<div class="bodyBg">
+		<h2 style="text-align:center;">分步校验插件</h2>
+		<div class="v1">
+			<form class="form-horizontal" id="userForm" action="#" action="..." method="post" >
+				<div class="col-xs-12 mtb10">
+					<div class="form-group">
+						<label for="" class="col-xs-2 control-label must" style="width:100px">用户名</label>
+						<div class="col-xs-4" style="width:70%">
+							<input type="text" class="form-control" id="username" data-length="20" maxlength="20" name="username" placeholder="请输入用户名" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 mtb10">
+					<div class="form-group">
+						<label for="" class="col-xs-2 control-label must" style="width:100px">密码</label>
+						<div class="col-xs-4" style="width:70%">
+							<input type="password" class="form-control" id="password" data-length="20" data-range="6-20" name="password" placeholder="请输入密码" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 mtb10">
+					<div class="form-group">
+						<label for="" class="col-xs-2 control-label must" style="width:100px">重复密码</label>
+						<div class="col-xs-4" style="width:70%">
+							<input type="password" class="form-control" id="passwordTo" data-length="20" data-range="6-20" data-equalID="password" name="passwordTo" placeholder="请输入重复密码" />
+						</div>
+					</div>
+				</div>
+				<button type="button" class="button button-primary button-small mtb10" id="submit">下一步</button>
+			</form>
+		</div>
+		<div class="v2">
+			<form class="form-horizontal" id="userForm2" action="#" action="..." method="post" >
+				<div class="col-xs-12 mtb10">
+					<div class="form-group">
+						<label for="" class="col-xs-2 control-label must" style="width:100px">信息1</label>
+						<div class="col-xs-4" style="width:70%">
+							<input type="text" class="form-control" id="msg1" data-length="20" maxlength="20" name="msg1" placeholder="请输入信息1" />
+						</div>
+					</div>
+				</div>
+				<div class="col-xs-12 mtb10">
+					<div class="form-group">
+						<label for="" class="col-xs-2 control-label must" style="width:100px">信息2</label>
+						<div class="col-xs-4" style="width:70%">
+							<input type="text" class="form-control" id="msg2" data-length="20" maxlength="20" name="msg2" placeholder="请输入信息2" />
+						</div>
+					</div>
+				</div>
+				<button type="button" class="button button-primary button-small mtb10" id="toPrev">上一步</button>
+				<button type="button" class="button button-primary button-small mtb10" id="submit2">提交</button>
+			</form>
+		</div>
+	</div>
+	
+	<script src="js/jquery-3.3.1.min.js"></script>
+	<script src="js/layer/layer.js"></script>
+	<script src="js/validateForm.js"></script>
+	<script>
+		$(function(){
+			
+			// 提交
+			$("#submit").click(function(){
+				$("#userForm").formValidate({
+				    isNotSubmitForm: true, // 不提交表单
+					//两种错误提示方法，不加errorElement为弹框，加的话是错误提示信息ID，错误提示配置见页面
+					rules: {
+						username:{
+							validateNull:true
+						},
+						password:{
+							validateNull:true,
+							validateRangeLength:true
+						},
+						passwordTo:{
+							validateNull:true,
+							validateRangeLength:true,
+							validateTwoPwd:true
+						}
+					},
+					messages: {
+						username: {
+							validateNull:"请输入用户名"
+						},
+						password:{
+							validateNull:"请输入密码",
+							validateRangeLength:"登录密码长度为6-20位"
+						},
+						passwordTo:{
+							validateNull:"请重复输入密码",
+							validateRangeLength:"确认密码长度为6-20位",
+							validateTwoPwd:"两次密码输入不一致"
+						}
+					}
+				});
+				if(!validateResult){
+					return;
+				} else {
+					$(".v1").hide();
+					$(".v2").show();
+				}
+			});
+			
+			// 第二步校验（如果是在第二步提交表单的话，那就把第一步的form放到第二步的form表单里，添加隐藏域）
+			$("#submit2").click(function(){
+				$("#userForm2").formValidate({
+					isNotSubmitForm: true, // 不提交表单
+					//两种错误提示方法，不加errorElement为弹框，加的话是错误提示信息ID，错误提示配置见页面
+					rules: {
+						msg1:{
+							validateNull:true
+						},
+						msg2:{
+							validateNull:true
+						}
+					},
+					messages: {
+						msg1: {
+							validateNull:"请输信息1"
+						},
+						msg2: {
+							validateNull:"请输信息2"
+						}
+					}
+				});
+				if(!validateResult){
+					return;
+				} else {
+					// 提交表单，或者是isNotSubmitForm去掉
+					layer.msg('提交成功',{time: 2000});
+				}
+			});
+			// 上一步
+			$("#toPrev").click(function(){
+				$(".v2").hide();
+				$(".v1").show();
+			});
+			
+		})
+		
+	</script>
+</body>
+ 
+</html>
