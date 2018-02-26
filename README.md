@@ -35,3 +35,4 @@
  * */
  
  ![pic1](https://github.com/lovlin1990/validateForm/blob/master/first.png);
+ ![pic1](https://github.com/lovlin1990/validateForm/blob/master/second.png);
