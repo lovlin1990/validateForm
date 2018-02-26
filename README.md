@@ -33,3 +33,5 @@
  * （3）如果两个input值是否一样，在input里配置，例：data-equalID="abc"
  * 
  * */
+ 
+ ![pic1](https://github.com/lovlin1990/validateForm/blob/master/first.png);
