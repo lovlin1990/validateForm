@@ -1,6 +1,8 @@
 # validateForm
 异步校验插件
 
+预览: https://lovlin1990.github.io/validateForm/validateForm.html
+
 /*
  * 校验主函数:
  * 调用例子
